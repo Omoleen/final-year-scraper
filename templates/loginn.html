@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST" class="container">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+    <br><br>
+    <a class="text-decoration-none" href="{% url 'search-page' %}">Forgot Password</a>
+</form>
+</body>
+</html>

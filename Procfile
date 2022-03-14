@@ -1,0 +1,1 @@
+web: gunicorn FinalScraper.wsgi --log-file -
