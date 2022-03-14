@@ -143,7 +143,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-BASE_URL = 'http://127.0.0.1:8000/'
+BASE_URL = 'https://finalprojectscraper.herokuapp.com/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
