@@ -152,7 +152,12 @@
 							<div class="header-ctn">
 								<!-- Wishlist -->
 								<div>
+                                    {% if saven != 0 %}
 									<a href="#savedproducts">
+                                        {% endif %}
+                                    {% if saven == 0 %}
+                                        <a href="#">
+                                    {% endif %}
 										<i class="fa fa-heart"></i>
 										<span>Your Wishlist</span>
 										<div class="qty">{{ saven }}</div>
@@ -168,51 +173,6 @@
                                     </a>
                                 </div>
                                 <!-- /Trending Products -->
-
-								<!-- Cart -->
-								<!-- <div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
-                                        {% if user.is_authenticated %}
-                                            <div class="qty">{{ savedn }}</div>
-                                        {% endif %}
-									</a>
-									<div class="cart-dropdown">
-										<div class="cart-list" id="cartlist">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product01.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-										</div>
-										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
-										</div>
-										<div class="cart-btns">
-											<a href="#">View Cart</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-										</div>
-									</div>
-								</div> -->
-								<!-- /Cart -->
 
 								<!-- Menu Toogle -->
 								<div class="menu-toggle">
@@ -246,11 +206,6 @@
                         <li class="active"><a>Trending Searches: </a></li>
                         {% for search in trendsearches %}
 						<li><a href={{ search.link }}>{{ search.search }} - {{ search.stores }}</a></li>
-						<!--<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>-->
                         {% endfor %}
 					</ul>
 					<!-- /NAV -->
@@ -343,7 +298,7 @@
 											<button onclick="showAlert()" data-product={{ item.id }} data-name={{ item.title }} data-image={{ item.img }} data-price={{ item.price }} data-store={{ item.store }} data-link={{ item.link }} data-action="add" class="add-to-wishlist saved-items"><i class="fa fa-heart"></i><span class="tooltipp">add to wishlist</span></button>
                                             <!--<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                                 <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>-->
-                                            <button data-product={{ item.id }} data-name={{ item.title }} data-image={{ item.img }} data-price={{ item.price }} data-store={{ item.store }} data-link={{ item.link }} data-action="add" class="add-to-cart-btn update-cart"><i class="fa fa-shopping-cart"></i><span class="tooltipp">add to cart</span></button>
+                                            <!--<button data-product={{ item.id }} data-name={{ item.title }} data-image={{ item.img }} data-price={{ item.price }} data-store={{ item.store }} data-link={{ item.link }} data-action="add" class="add-to-cart-btn update-cart"><i class="fa fa-shopping-cart"></i><span class="tooltipp">add to cart</span></button>-->
 										</div>
 									</div>
 									<!--<div class="add-to-cart">

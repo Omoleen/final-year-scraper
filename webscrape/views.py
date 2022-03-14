@@ -75,7 +75,8 @@ def searchresult(request):
         search = request.GET.get('productsearch')
         stores = request.GET.getlist('stores[]')
         print(stores)
-        if len(stores) == 0:
+        if len(stores) == 0 or len(search) == 0:
+            messages.error(request, "Please pick a store and input a product")
             return redirect('search-page')
         else:
             trendsearch = TrendSearch()
