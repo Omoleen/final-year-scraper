@@ -88,6 +88,7 @@ def searchresult(request):
             trendsearch.stores = stores
             trendsearch.save()
             presentpage = ''
+            urls = []
             if 'jumia' in stores:
                 if 'ebay' and 'aliexpress' and 'jiji' and 'amazon' not in stores:
                     urls = [f"https://www.jumia.com.ng/catalog/?q={search}"]
