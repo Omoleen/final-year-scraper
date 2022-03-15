@@ -14,6 +14,8 @@ from .models import SavedProducts
 from .models import TrendSearch
 import json
 from django.db.models import Count
+from selenium import webdriver
+import os
 
 
 def account(request):  # sign up
@@ -350,8 +352,6 @@ def scraper(html):
                 'star_rating': round(Decimal(item.find('span', {'class': 'eXPaM'}).text.strip())),
                 'reviews_count': reviews_count,
             }
-            # reviews_count = product.find('div', {'class': 'rev'}).text.replace('(', '').replace(')', '').replace(star_rating, '')
-            # shipping = product.find('div', {'class': '_2mXVg shIx4'}).find('span', {'class': 'ZCLbI'}).text
             allaliexpressproducts.append(product)
             i = i + 1
         except:
