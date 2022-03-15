@@ -17,6 +17,8 @@ from django.db.models import Count
 
 
 def account(request):  # sign up
+    if not request.user.is_authenticated:
+        messages.info(request, 'Please Login or Register')
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
@@ -249,9 +251,13 @@ def listofproducts(products):
 def scraper(html):
     soup = BeautifulSoup(str(html), 'lxml')
     jumproducts = soup.findAll('article', class_='prd _fb col c-prd')
+    aliexpressproducts = soup.findAll('a', class_='_3t7zg _2f4Ho')
     ebayproducts = soup.findAll('div', class_='s-item__wrapper clearfix')
+    amazonproducts = soup.findAll('div', class_='s-result-item')
     alljumproducts = []
     allebayproducts = []
+    allamazonproducts = []
+    allaliexpressproducts = []
     i = 0
     for item in jumproducts:
         try:
@@ -289,7 +295,7 @@ def scraper(html):
                 'img': item.find('div', {'class': 's-item__image-wrapper'}).find('img', {'class': 's-item__image-img'})[
                     'src'],
                 'price': float(
-                    item.find('span', {'class': 's-item__price'}).text.replace('$', '').replace(',', '').strip()),
+                    item.find('span', {'class': 's-item__price'}).text.replace('$', '').replace(',', '').strip()) * 570,
                 'condition': item.find('div', {'class': 's-item__subtitle'}).find('span',
                                                                                   {'class': 'SECONDARY_INFO'}).text,
                 'reviews_count': item.find('span', {'class': 's-item__reviews-count'}).text.replace(
@@ -302,8 +308,56 @@ def scraper(html):
             i = i + 1
         except:
             pass
+    for item in amazonproducts:
+        try:
+            rating = item.find('span', {'class': 'a-icon-alt'}).text
+            rating = rating.split()
+            rating = round(Decimal(rating[0]))
+            title = item.find('span', {'class': 'a-size-medium a-color-base a-text-normal'}).text
+            title = title[:40]
+            if len(title) < 28:
+                title = title + '           '
+            product = {
+                'id': i,
+                'store': 'Amazon',
+                'img': item.find('span', {'data-component-type': 's-product-image'}).find('img', {'class': 's-image'})['src'],
+                'link': 'https://www.amazon.com' + item.find('a', {'class': 'a-link-normal s-no-outline'})['href'],
+                'title': title,
+                'price': float(item.find('span', {'class': 'a-price'}).find('span', {'class': 'a-offscreen'}).text.replace('$', '').strip()) * 570,
+                'star_rating': rating,
+                'reviews_count': item.find('span', {'class': 'a-size-base s-underline-text'}).text,
+            }
+            allamazonproducts.append(product)
+            i = i + 1
+        except:
+            pass
+    for item in aliexpressproducts:
+        try:
+            reviews_count = item.find('span', {'class': '_1kNf9'}).text
+            reviews_count = reviews_count.split()
+            reviews_count = reviews_count[0]
+            title = item.find('h1', {'class': '_18_85'}).text
+            title = title[:40]
+            if len(title) < 28:
+                title = title + '           '
+            product = {
+                'id': i,
+                'store': 'Aliexpress',
+                'img': item.find('div', {'class': '_3A0hz gYJvK'}).find('img')['src'],
+                'link': 'https://www.aliexpress.com' + item['href'],
+                'title': title,
+                'price': float(item.find('div', {'class': 'mGXnE _37W_B'}).find('span', {'style': 'font-size: 20px;'}).text.replace('US $', '').strip()) * 570,
+                'star_rating': round(Decimal(item.find('span', {'class': 'eXPaM'}).text.strip())),
+                'reviews_count': reviews_count,
+            }
+            # reviews_count = product.find('div', {'class': 'rev'}).text.replace('(', '').replace(')', '').replace(star_rating, '')
+            # shipping = product.find('div', {'class': '_2mXVg shIx4'}).find('span', {'class': 'ZCLbI'}).text
+            allaliexpressproducts.append(product)
+            i = i + 1
+        except:
+            pass
 
-    return alljumproducts + allebayproducts
+    return alljumproducts + allebayproducts + allamazonproducts + allaliexpressproducts
 
 
 def updateItem(request):
