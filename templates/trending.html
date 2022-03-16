@@ -102,7 +102,7 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>-->
             <ul class="header-links pull-right">
-                <!--<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>-->
+                <li><a href="#"><i class="fa fa-naira-sign"></i> NGN</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}"><i class="fa fa-user"></i>Logout</a></li>
                 {% endif %}
@@ -141,6 +141,8 @@
                             <div style="text-align: center;color: whitesmoke; font-weight: bold">
                                 <input id="stores" type="checkbox" value="jumia" name="stores[]"/> Jumia
                                 <input id="stores" type="checkbox" value="ebay" name="stores[]"/> Ebay
+                                <input id="stores" type="checkbox" value="amazon" name="stores[]"/> Amazon
+                                <input id="stores" type="checkbox" value="aliexpress" name="stores[]"/> Aliexpress
                             </div>
                         </form>
                     </div>
