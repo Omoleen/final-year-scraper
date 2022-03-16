@@ -516,7 +516,10 @@ def scraper(html):
             rating = item.find('span', {'class': 'a-icon-alt'}).text
             rating = rating.split()
             rating = round(Decimal(rating[0]))
-            title = item.find('span', {'class': 'a-size-medium a-color-base a-text-normal'}).text
+            try:
+                title = item.find('span', {'class': 'a-size-medium a-color-base a-text-normal'}).text
+            except:
+                title = item.find('span', {'class': 'a-size-base-plus a-color-base a-text-normal'}).text
             title = title[:40]
             if len(title) < 28:
                 title = title + '           '
