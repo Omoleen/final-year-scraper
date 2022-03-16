@@ -89,35 +89,165 @@ def searchresult(request):
             trendsearch.save()
             presentpage = ''
             urls = []
-            if 'jumia' in stores:
-                if 'ebay' and 'aliexpress' and 'jiji' and 'amazon' not in stores:
+            sel_urls = []
+            # individual stores
+            if 'jumia' in stores and len(stores) == 1:
+                if 'ebay' and 'aliexpress' and 'amazon' not in stores:
                     urls = [f"https://www.jumia.com.ng/catalog/?q={search}"]
                     presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia'
-            if 'ebay' in stores:
-                if 'jumia' and 'aliexpress' and 'jiji' and 'amazon' not in stores:
+            if 'ebay' in stores and len(stores) == 1:
+                if 'jumia' and 'aliexpress' and 'amazon' not in stores:
                     urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0"]
                     presentpage = f'search/?productsearch={search}&stores%5B%5D=ebay'
+            if 'amazon' in stores and len(stores) == 1:
+                if 'ebay' and 'aliexpress' and 'jumia' not in stores:
+                    sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss"]
+                    presentpage = f'search/?productsearch={search}&stores%5B%5D=amazon'
+            if 'aliexpress' in stores and len(stores) == 1:
+                if 'ebay' and 'jumia' and 'amazon' not in stores:
+                    sel_urls = [f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                    presentpage = f'search/?productsearch={search}&stores%5B%5D=aliexpress'
+
+            # two stores
+            # jumia and aliexpress
+            if 'aliexpress' in stores:
+                if 'jumia' in stores:
+                    if 'ebay' and 'amazon' not in stores:
+                        sel_urls = [f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                        urls = [f"https://www.jumia.com.ng/catalog/?q={search}"]
+                        presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=aliexpress'
+
+            # jumia and amazon
+            if 'amazon' in stores:
+                if 'jumia' in stores:
+                    if 'ebay' and 'aliexpress' not in stores:
+                        sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss"]
+                        urls = [f"https://www.jumia.com.ng/catalog/?q={search}"]
+                        presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=amazon'
+
+            # aliexpress and amazon
+            if 'amazon' in stores:
+                if 'aliexpress' in stores:
+                    if 'ebay' and 'jumia' not in stores:
+                        sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss",
+                                    f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                        presentpage = f'search/?productsearch={search}&stores%5B%5D=amazon&stores%5B%5D=aliexpress'
+
+            # ebay and aliexpress
+            if 'ebay' in stores:
+                if 'aliexpress' in stores:
+                    if 'amazon' and 'jumia' not in stores:
+                        sel_urls = [f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                        urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0"]
+                        presentpage = f'search/?productsearch={search}&stores%5B%5D=ebay&stores%5B%5D=aliexpress'
+
+            # ebay and amazon
+            if 'ebay' in stores:
+                if 'amazon' in stores:
+                    if 'aliexpress' and 'jumia' not in stores:
+                        sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss"]
+                        urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0"]
+                        presentpage = f'search/?productsearch={search}&stores%5B%5D=ebay&stores%5B%5D=amazon'
+
+            # ebay and jumia
             if 'ebay' in stores:
                 if 'jumia' in stores:
-                    if 'aliexpress' and 'jiji' and 'amazon' not in stores:
+                    if 'aliexpress' and 'amazon' not in stores:
                         presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=ebay'
-                        urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0",
-                                f"https://www.jumia.com.ng/catalog/?q={search}"]
+                        urls = [f"https://www.jumia.com.ng/catalog/?q={search}", f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0",
+                                ]
 
+            # three stores
+            # ebay and jumia and aliexpress
+            if 'ebay' in stores:
+                if 'jumia' in stores:
+                    if 'aliexpress' in stores:
+                        if 'amazon' not in stores:
+                            presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=ebay&stores%5B%5D=aliexpress'
+                            sel_urls = [f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                            urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0",
+                                    f"https://www.jumia.com.ng/catalog/?q={search}"]
+
+            # ebay and jumia and amazon
+            if 'ebay' in stores:
+                if 'jumia' in stores:
+                    if 'amazon' in stores:
+                        if 'aliexpress' not in stores:
+                            presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=ebay&stores%5B%5D=amazon'
+                            sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss"]
+                            urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0",
+                                    f"https://www.jumia.com.ng/catalog/?q={search}"]
+
+            # aliexpress and amazon and jumia
+            if 'amazon' in stores:
+                if 'aliexpress' in stores:
+                    if 'jumia' in stores:
+                        if 'ebay' not in stores:
+                            sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss",
+                                        f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                            urls = [f"https://www.jumia.com.ng/catalog/?q={search}"]
+                            presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=amazon&stores%5B%5D=aliexpress'
+
+            # aliexpress and amazon and ebay
+            if 'amazon' in stores:
+                if 'aliexpress' in stores:
+                    if 'ebay' in stores:
+                        if 'jumia' not in stores:
+                            sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss",
+                                        f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                            urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0"]
+                            presentpage = f'search/?productsearch={search}&stores%5B%5D=ebay&stores%5B%5D=amazon&stores%5B%5D=aliexpress'
+
+            # all the 4 stores
+            if 'amazon' in stores:
+                if 'aliexpress' in stores:
+                    if 'ebay' in stores:
+                        if 'jumia' in stores:
+                            sel_urls = [f"https://www.amazon.com/s?k={search}&ref=nb_sb_noss",
+                                        f"https://www.aliexpress.com/wholesale?catId=0&initiative_id=SB_20220315093931&SearchText={search}"]
+                            urls = [f"https://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw={search}&_sacat=0",
+                                    f"https://www.jumia.com.ng/catalog/?q={search}"]
+                            presentpage = f'search/?productsearch={search}&stores%5B%5D=jumia&stores%5B%5D=ebay&stores%5B%5D=amazon&stores%5B%5D=aliexpress'
 
         products = []
-        starttime = time.time()
+        normhtml = ''
+        selhtml = ''
+        # fullhtml = ''
+        # starttime = time.time()
+        print(urls)
+        print(sel_urls)
+        # for request urls
+        if urls != 0:
+            for url in urls:
+                res = requests.get(url)
+                data = res.text
+                normhtml = normhtml + '' + data
 
-        for url in urls:
-            res = requests.get(url)
-            data = res.text
-            products = products + scraper(data)
+        # for selenium urls
+        if sel_urls != 0:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--no-sandbox")
+            driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                                      chrome_options=chrome_options)
+            for i in sel_urls:
+                driver.get(i)
+                data = driver.page_source
+                selhtml = selhtml + '' + data
+
+            driver.quit()
+
+        # to scrape products from html
+        fullhtml = normhtml + '' + selhtml
+        products = scraper(fullhtml)
 
         numb = len(products)
-        print(numb)
+        # print(numb)
         prod = listofproducts(products)
         prod = random.sample(prod, len(prod))
-        print(products)
+        # print(products)
 
         # trending products
         trending = SavedProducts.objects.values('link', 'store', 'name', 'image', 'price').annotate(dcount=Count('link')).order_by('-dcount')[:5]
@@ -128,6 +258,7 @@ def searchresult(request):
             searchplus = searchquery.replace(' ', '+')
             searchstores = each['stores']
             eachstore = ''
+            # for trend searches
             for eachstores in searchstores:
                 eachstore += eachstores + ','
             eachstore = eachstore[:-1]
@@ -154,11 +285,11 @@ def searchresult(request):
         print(trendsearches)
         print(trending)
 
-        total = time.time() - starttime
+        # total = time.time() - starttime
         context = {'res': prod,
                    'numberof': range(len(products)),
                    'presentpage': presentpage,
-                   'time': total,
+                   # 'time': total,
                    'search': search,
                    'trendsearches': trendquery,
                    'save': SavedProducts.objects.filter(account_id=request.user),
@@ -183,14 +314,14 @@ def savedproductspage(request):
         eachlink = ''
         print(searchquery, searchstores)
         if 'jumia' in searchstores:
-            if 'ebay' and 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
+            if 'ebay' and 'aliexpress' and 'amazon' not in searchstores:
                 eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia'
         if 'ebay' in searchstores:
-            if 'jumia' and 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
+            if 'jumia' and 'aliexpress' and 'amazon' not in searchstores:
                 eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=ebay'
         if 'ebay' in searchstores:
             if 'jumia' in searchstores:
-                if 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
+                if 'aliexpress' and 'amazon' not in searchstores:
                     eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia&stores%5B%5D=ebay'
 
         onetrend = {'search': searchquery,
@@ -252,7 +383,7 @@ def listofproducts(products):
 
 # scrape jumia and ebay
 def scraper(html):
-    soup = BeautifulSoup(str(html), 'lxml')
+    soup = BeautifulSoup(str(html), 'html.parser')
     jumproducts = soup.findAll('article', class_='prd _fb col c-prd')
     aliexpressproducts = soup.findAll('a', class_='_3t7zg _2f4Ho')
     ebayproducts = soup.findAll('div', class_='s-item__wrapper clearfix')
@@ -290,15 +421,15 @@ def scraper(html):
             title = title[:40]
             if len(title) < 28:
                 title = title + '           '
-            product = {
+            product1 = {
                 'id': i,
                 'title': title,
                 'store': 'eBay',
                 'link': item.find('a', {'class': 's-item__link'})['href'],
                 'img': item.find('div', {'class': 's-item__image-wrapper'}).find('img', {'class': 's-item__image-img'})[
                     'src'],
-                'price': float(
-                    item.find('span', {'class': 's-item__price'}).text.replace('$', '').replace(',', '').strip()) * 570,
+                'price': round((float(
+                    item.find('span', {'class': 's-item__price'}).text.replace('$', '').replace(',', '').strip()) * 570), 2),
                 'condition': item.find('div', {'class': 's-item__subtitle'}).find('span',
                                                                                   {'class': 'SECONDARY_INFO'}).text,
                 'reviews_count': item.find('span', {'class': 's-item__reviews-count'}).text.replace(
@@ -307,7 +438,7 @@ def scraper(html):
                 'star_rating': round(Decimal((item.find('div', {'class': 'x-star-rating'}).find('span', {
                     'class': 'clipped'}).text.split('out')[0]).strip())),
             }
-            allebayproducts.append(product)
+            allebayproducts.append(product1)
             i = i + 1
         except:
             pass
@@ -320,17 +451,17 @@ def scraper(html):
             title = title[:40]
             if len(title) < 28:
                 title = title + '           '
-            product = {
+            product2 = {
                 'id': i,
                 'store': 'Amazon',
                 'img': item.find('span', {'data-component-type': 's-product-image'}).find('img', {'class': 's-image'})['src'],
                 'link': 'https://www.amazon.com' + item.find('a', {'class': 'a-link-normal s-no-outline'})['href'],
                 'title': title,
-                'price': float(item.find('span', {'class': 'a-price'}).find('span', {'class': 'a-offscreen'}).text.replace('$', '').strip()) * 570,
+                'price': round((float(item.find('span', {'class': 'a-price'}).find('span', {'class': 'a-offscreen'}).text.replace('$', '').strip()) * 570), 2),
                 'star_rating': rating,
                 'reviews_count': item.find('span', {'class': 'a-size-base s-underline-text'}).text,
             }
-            allamazonproducts.append(product)
+            allamazonproducts.append(product2)
             i = i + 1
         except:
             pass
@@ -343,17 +474,17 @@ def scraper(html):
             title = title[:40]
             if len(title) < 28:
                 title = title + '           '
-            product = {
+            product3 = {
                 'id': i,
                 'store': 'Aliexpress',
                 'img': item.find('div', {'class': '_3A0hz gYJvK'}).find('img')['src'],
                 'link': 'https://www.aliexpress.com' + item['href'],
                 'title': title,
-                'price': float(item.find('div', {'class': 'mGXnE _37W_B'}).find('span', {'style': 'font-size: 20px;'}).text.replace('US $', '').strip()) * 570,
+                'price': round((float(item.find('div', {'class': 'mGXnE _37W_B'}).find('span', {'style': 'font-size: 20px;'}).text.replace('US $', '').strip()) * 570), 2),
                 'star_rating': round(Decimal(item.find('span', {'class': 'eXPaM'}).text.strip())),
                 'reviews_count': reviews_count,
             }
-            allaliexpressproducts.append(product)
+            allaliexpressproducts.append(product3)
             i = i + 1
         except:
             pass
