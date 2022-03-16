@@ -20,11 +20,11 @@
       {% endfor %}
   {% endif %}
     <div class="s006">
-        {% if user.is_authenticated %}
+        <!--{% if user.is_authenticated %}
         <form style="width: fit-content; margin-top: 0; margin-left: 0" action="{% url 'saved_products' %}">
             <button style="text-align: center; border: none; text-decoration: none; border-radius: 12px; height: 30px; font-family: sans-serif" type="submit">Saved Products</button>
         </form>
-        {% endif %}
+        {% endif %}-->
       <form method="GET" action="{% url 'search' %}">
         <fieldset>
           <legend>What are you looking for?</legend>
