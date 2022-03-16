@@ -287,19 +287,6 @@ def savedproductspage(request):
         for eachstores in searchstores:
             eachstore += eachstores + ','
         eachstore = eachstore[:-1]
-        eachlink = ''
-        print(searchquery, searchstores)
-        # if 'jumia' in searchstores:
-        #     if 'ebay' and 'aliexpress' and 'amazon' not in searchstores:
-        #         eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia'
-        # if 'ebay' in searchstores:
-        #     if 'jumia' and 'aliexpress' and 'amazon' not in searchstores:
-        #         eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=ebay'
-        # if 'ebay' in searchstores:
-        #     if 'jumia' in searchstores:
-        #         if 'aliexpress' and 'amazon' not in searchstores:
-        #             eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia&stores%5B%5D=ebay'
-
         onetrend = {'search': searchquery,
                     'link': TrendSearches(searchstores, searchplus),
                     'stores': eachstore}
@@ -408,7 +395,7 @@ def TrendSearches(trendsearches, searchplus):
 # saved products
 def trendingproducts(request):
     # trending products
-    trending = SavedProducts.objects.values('link', 'store', 'name', 'image', 'price').annotate(dcount=Count('link')).order_by('-dcount')[:5]
+    trending = SavedProducts.objects.values('link', 'store', 'name', 'image', 'price').annotate(dcount=Count('link')).order_by('-dcount')[:10]
     print(trending)
 
     trendsearches = TrendSearch.objects.values('stores', 'search').annotate(dcount=Count('search')).order_by('-dcount')[:5]
@@ -421,18 +408,6 @@ def trendingproducts(request):
         for eachstores in searchstores:
             eachstore += eachstores + ','
         eachstore = eachstore[:-1]
-        # eachlink = ''
-        # if 'jumia' in searchstores:
-        #     if 'ebay' and 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
-        #         eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia'
-        # if 'ebay' in searchstores:
-        #     if 'jumia' and 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
-        #         eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=ebay'
-        # if 'ebay' in searchstores:
-        #     if 'jumia' in searchstores:
-        #         if 'aliexpress' and 'jiji' and 'amazon' not in searchstores:
-        #             eachlink = settings.BASE_URL + f'search/?productsearch={searchplus}&stores%5B%5D=jumia&stores%5B%5D=ebay'
-
         onetrend = {'search': searchquery,
                     'link': TrendSearches(searchstores, searchplus),
                     'stores': eachstore}
