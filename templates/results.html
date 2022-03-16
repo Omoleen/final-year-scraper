@@ -149,15 +149,10 @@
 							<div class="header-ctn">
 								<!-- Wishlist -->
 								<div>
-                                    {% if saven != 0 %}
-									<a href="#savedproducts">
-                                        {% endif %}
-                                    {% if saven == 0 %}
-                                        <a href="{% url 'saved_products' %}">
-                                    {% endif %}
-										<i class="fa fa-heart"></i>
-										<span>Your Wishlist</span>
-										<div class="qty">{{ saven }}</div>
+                                    <a href="{% url 'saved_products' %}">
+                                    <i class="fa fa-heart"></i>
+                                    <span>Your Wishlist</span>
+                                    <!--<div class="qty">{{ saven }}</div>-->
 									</a>
 								</div>
 								<!-- /Wishlist -->
