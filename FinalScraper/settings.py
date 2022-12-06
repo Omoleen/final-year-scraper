@@ -143,7 +143,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-BASE_URL = 'https://web-production-7c09.up.railway.app'
+BASE_URL = 'https://store-scraper.up.railway.app'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
