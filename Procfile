@@ -1,1 +1,2 @@
-web: python manage.py migrate && gunicorn FinalScraper.wsgi
+run: python manage.py migrate
+web: gunicorn FinalScraper.wsgi
