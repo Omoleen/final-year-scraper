@@ -1,1 +1,1 @@
-web: gunicorn FinalScraper.wsgi --log-file -
+web: python manage.py migrate && gunicorn FinalScraper.wsgi --log-file -

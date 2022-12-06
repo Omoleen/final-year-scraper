@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure--ddjw+c@@a6^wj7-adov+uz0&e+6(0^ra)6ijph8d(#*=#3yqp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['finalprojectscraper.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'FinalScraper',
         'USER': 'postgres',
-        'PASSWORD': 'Oreoluwa',
+        'PASSWORD': '_',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -143,7 +143,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-BASE_URL = 'https://finalprojectscraper.herokuapp.com/'
+BASE_URL = 'https://web-production-7c09.up.railway.app'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
