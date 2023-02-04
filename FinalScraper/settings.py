@@ -14,6 +14,8 @@ import os
 import dj_database_url
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,19 +95,21 @@ WSGI_APPLICATION = 'FinalScraper.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'FinalScraper',
-        'USER': 'postgres',
-        'PASSWORD': '_',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'FinalScraper',
+#         'USER': 'postgres',
+#         'PASSWORD': '_',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
+DATABASES = {'default': dj_database_url.config(default=os.environ['DATABASE_URL'], engine='django_cockroachdb')}
 
 
 # Password validation

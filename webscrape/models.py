@@ -32,7 +32,7 @@ class SavedProducts(models.Model):
 class TrendSearch(models.Model):
     search = models.CharField(max_length=100)
     # store = models.JSONField()
-    link = models.URLField()
+    link = models.CharField(max_length=200)
     stores = ArrayField(
         ArrayField(
             models.CharField(max_length=10, blank=True),
